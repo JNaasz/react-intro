@@ -14,11 +14,19 @@ function Square(props) {
 }
 
 class Board extends React.Component {
+  getClass(i) { 
+    const isWinningSquare = this.props.winningSquares.includes(i);
+    const isCurrentSquare = this.props.lastSelection === i;
+    return isWinningSquare ? ' won'
+      : isCurrentSquare ? ' current'
+        : '';
+  }
+
   renderSquare(i) {
     return ( // use parens here so javascript doesn't automatically insert a semicolon
       <Square
         key={'s' + i}
-        className={'square' + (i === this.props.lastSelection ? ' current' : '')}
+        className={'square' + this.getClass(i)}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
       />
@@ -63,7 +71,6 @@ class Game extends React.Component {
   }
 
   handleClick(i) {
-    console.info('hello?', i);
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -82,20 +89,18 @@ class Game extends React.Component {
       stepNumber: step,
       xIsNext: (step % 2) === 0,
     });
-    console.log('you gonna work?', this.state)
   }
 
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = calcWinner(current.squares);
-    const status = winner
-      ? 'Winner: ' + winner
+    const gameOver = calcWinner(current.squares);
+    const status = gameOver
+      ? 'Winner: ' + gameOver.winner
       : 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
     const moves = history.map((step, move) => {
       const isCurrent = move && step.lastSelection === current.lastSelection;
-      console.log('eh', isCurrent, move.lastSelection, current.lastSelection);
       
       let text;
       if (!move) {
@@ -123,6 +128,7 @@ class Game extends React.Component {
       <div className="game">
         <div className="game-board">
           <Board
+            winningSquares={gameOver ? gameOver.squares : []}
             squares={current.squares}
             lastSelection={current.lastSelection}
             onClick={(i) => this.handleClick(i)}
@@ -156,7 +162,7 @@ function calcWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], squares: lines[i] };
     }
   }
   return null;
