@@ -17,6 +17,7 @@ class Board extends React.Component {
   renderSquare(i) {
     return ( // use parens here so javascript doesn't automatically insert a semicolon
       <Square
+        key={'s' + i}
         className={'square' + (i === this.props.lastSelection ? ' current' : '')}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
@@ -24,24 +25,25 @@ class Board extends React.Component {
     );
   }
 
+  renderRow(squareStart) { 
+    let rows = [];
+    for(let i = squareStart; i < squareStart + 3; i++) { 
+      rows.push(this.renderSquare(i));
+    }
+
+    return rows;
+  }
+
   render() {
     return (
       <div>
-        <div className="board-row" data-row="1">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row" data-row="2">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row" data-row="3">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {
+          [0, 3, 6].map((squareStart, i) => {
+           return <div className="board-row" data-row={i + 1} key={'r' + i +1}>
+             {this.renderRow(squareStart)}
+            </div>
+          })
+        }
       </div>
     );
   }
