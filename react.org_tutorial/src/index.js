@@ -14,7 +14,7 @@ function Square(props) {
 }
 
 class Board extends React.Component {
-  getClass(i) { 
+  getClass(i) {
     const isWinningSquare = this.props.winningSquares.includes(i);
     const isCurrentSquare = this.props.lastSelection === i;
     return isWinningSquare ? ' won'
@@ -33,9 +33,9 @@ class Board extends React.Component {
     );
   }
 
-  renderRow(squareStart) { 
+  renderRow(squareStart) {
     let rows = [];
-    for(let i = squareStart; i < squareStart + 3; i++) { 
+    for (let i = squareStart; i < squareStart + 3; i++) {
       rows.push(this.renderSquare(i));
     }
 
@@ -47,8 +47,8 @@ class Board extends React.Component {
       <div>
         {
           [0, 3, 6].map((squareStart, i) => {
-           return <div className="board-row" data-row={i + 1} key={'r' + i +1}>
-             {this.renderRow(squareStart)}
+            return <div className="board-row" data-row={i + 1} key={'r' + i + 1}>
+              {this.renderRow(squareStart)}
             </div>
           })
         }
@@ -67,6 +67,7 @@ class Game extends React.Component {
       }],
       stepNumber: 0,
       xIsNext: true,
+      isAscending: true
     }
   }
 
@@ -91,6 +92,12 @@ class Game extends React.Component {
     });
   }
 
+  toggleSort() {
+    this.setState({
+      isAscending: !this.state.isAscending
+    })
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -101,13 +108,13 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const isCurrent = move && step.lastSelection === current.lastSelection;
-      
+
       let text;
       if (!move) {
         text = 'Go to game start';
-      } else { 
+      } else {
         const selection = squareMap[step.lastSelection];
-        const moveText = `move #${move} (${selection.col}, ${selection.row})`;  
+        const moveText = `move #${move} (${selection.col}, ${selection.row})`;
         text = isCurrent
           ? 'Currently on ' + moveText
           : 'Go to ' + moveText;
@@ -124,6 +131,7 @@ class Game extends React.Component {
         </li>
       )
     });
+
     return (
       <div className="game">
         <div className="game-board">
@@ -134,9 +142,17 @@ class Game extends React.Component {
             onClick={(i) => this.handleClick(i)}
           />
         </div>
+
         <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
+          <div className="menu">
+            <div className="status">{status}</div>
+            <p className="sort">Sort:</p>
+              <button
+                className="sort"
+                onClick={() => this.toggleSort()}
+              >X</button>
+          </div>
+          <ol>{this.state.isAscending ? moves : moves.reverse()}</ol>
         </div>
       </div>
     );

@@ -66,3 +66,27 @@ li {
 button {
   width: 200px;
 }
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.status {
+  margin: 0;
+}
+
+p.sort {
+  margin: 0 5px 0 30px;
+
+}
+
+button.sort {
+  width: 25px;
+  height: 25px;
+  background-image: url(../public/OIP.jpeg);
+  background-position: center;
+  background-size: 90%;
+  color: transparent;
+}
