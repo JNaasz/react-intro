@@ -102,9 +102,11 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const gameOver = calcWinner(current.squares);
-    const status = gameOver
-      ? 'Winner: ' + gameOver.winner
-      : 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    const status = gameOver && gameOver.winner === 'Tie'
+      ? 'Tie Game'
+      : gameOver
+        ? 'Winner: ' + gameOver.winner
+        : 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
     const moves = history.map((step, move) => {
       const isCurrent = move && step.lastSelection === current.lastSelection;
@@ -147,10 +149,10 @@ class Game extends React.Component {
           <div className="menu">
             <div className="status">{status}</div>
             <p className="sort">Sort:</p>
-              <button
-                className="sort"
-                onClick={() => this.toggleSort()}
-              >X</button>
+            <button
+              className="sort"
+              onClick={() => this.toggleSort()}
+            >X</button>
           </div>
           <ol>{this.state.isAscending ? moves : moves.reverse()}</ol>
         </div>
@@ -181,7 +183,8 @@ function calcWinner(squares) {
       return { winner: squares[a], squares: lines[i] };
     }
   }
-  return null;
+  const gameOver = !squares.includes(null);
+  return gameOver ? { winner: 'Tie', squares: [] } : null;
 }
 
 const squareMap = {
