@@ -1,5 +1,8 @@
 What is react and what would we use it for?
 - a library for building user interfaces.. 
+- define the 'desired target state' and react handles the rest
 
 angular is much more feature heavy and includes typescript by default
 vue - less features than angular and more features than react
+
+Single-responsibility principle

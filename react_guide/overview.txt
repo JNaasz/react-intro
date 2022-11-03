@@ -27,4 +27,12 @@ Reference vs Primitive types
 3.25
 React is all components all the time
 
-3.26
+3.42
+JSX - gets compiled down to the following:
+  import React from 'react':
+  return React.createElement(
+    'div', // element to create
+    {}, // props object we are passing
+    React.createElement('h2', {}, 'Let's get started!'), // inner html so to speak, here it's a new react element who's inner content is 'Let's get started!'
+    React.createElement(Expenses, {items: expenses}) // then you can add any more content that you wish the same way, this one has no content so we omit it
+  );
