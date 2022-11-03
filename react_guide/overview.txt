@@ -1,0 +1,30 @@
+
+2.16:
+Spread and Rest Operators
+
+Spread: used to split up array elements or object properties
+  const newArray = [...oldArray, 1, 2];
+  const newObj = { ...oldObj, newProp: 5 };
+Rest: used to merge a list of function arguments into an array
+  function sortArgs(...args) { return args.sort() }
+
+2.17:
+Destructuring objects 
+  [a, b] = someArray;
+  {val1, val2} = { val1: 1, val2: 2 }
+  
+  [a, b, ...rest] = [10, 20, 30, 40, 50];
+  console.log(rest);
+  // expected output: Array [30,40,50]
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+
+2.18
+Reference vs Primitive types
+  - objects and arrays are reference types, assigning an object or an array to a new object will make them references to the 
+  original object/array instead of creating a copy like it does for primitive types
+  you can use the spread operator to create a copy: const person2 = { ...person1 }
+
+3.25
+React is all components all the time
+
+3.26
