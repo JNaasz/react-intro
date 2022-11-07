@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import Expenses from './components/Expenses/Expenses';
+import NewExpense from './components/Expenses/NewExpense';
 
 function App() {
-
   const expenses = [
     {
       id: 'e1',
@@ -24,7 +25,29 @@ function App() {
     },
   ];
 
-  return <Expenses items={expenses} />;
+  const [expenseArray, updateExpenseArray] = useState(expenses);
+
+
+  const onAddExpense = (enteredExpenseData) => { 
+    const expenseData = {
+      ...enteredExpenseData,
+      id: Math.random().toString()
+    }
+
+    console.log('data', expenseData);
+    updateExpenseArray([
+      expenseData,
+      ...expenses
+    ]);
+  }
+
+  return (
+    <div>
+      <NewExpense onAddExpense={onAddExpense} />
+      <Expenses items={expenseArray} />
+    </div>
+
+  );
 }
 
 export default App;
