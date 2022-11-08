@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Expenses from './components/Expenses/Expenses';
-import NewExpense from './components/Expenses/NewExpense';
+import NewExpense from './components/NewExpense/NewExpense';
 
 function App() {
   const expenses = [
@@ -32,13 +32,14 @@ function App() {
     const expenseData = {
       ...enteredExpenseData,
       id: Math.random().toString()
-    }
+    };
 
-    console.log('data', expenseData);
-    updateExpenseArray([
-      expenseData,
-      ...expenses
-    ]);
+    updateExpenseArray((prevExpenses) => {
+      return [
+        expenseData,
+        ...prevExpenses
+      ]
+    });
   }
 
   return (
